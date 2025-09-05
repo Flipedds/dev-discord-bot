@@ -1,7 +1,7 @@
 import { createEvent } from "../../../index.js";
 import { createWebhookClient } from "@magicyan/discord";
 import { time } from "discord.js"
-import { env } from 'env.js'
+import { env } from '#env'
 
 createEvent({
     name: "connect",
