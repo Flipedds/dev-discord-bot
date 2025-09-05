@@ -1,6 +1,33 @@
 import { createCommand } from "#base";
+import { renderEmbedAndComponents } from "#functions";
 import { brBuilder, createEmbed, createRow } from "@magicyan/discord";
 import { ApplicationCommandType, ButtonBuilder, ButtonStyle } from "discord.js";
+
+createCommand({
+    name: "roulette",
+    description: "Jogo roleta russa",
+    type: ApplicationCommandType.ChatInput,
+    async run(interaction) {
+        const embed = createEmbed({
+            color: constants.colors.success,
+            description: brBuilder(
+                "# Jogo Roleta Russa",
+                "Clique no botão para jogar"
+            )
+        });
+
+        const row = createRow(
+            new ButtonBuilder(
+                {
+                    customId: "/roulette/play",
+                    label: "Jogar",
+                    style: ButtonStyle.Danger
+                }
+            ));
+
+        renderEmbedAndComponents([embed], [row], interaction);
+    }
+});
 
 createCommand({
     name: "game",
@@ -38,10 +65,6 @@ createCommand({
                 }
             ));
 
-        await interaction.reply({
-            flags: ["Ephemeral"],
-            embeds: [embed],
-            components: [row]
-        });
+        renderEmbedAndComponents([embed], [row], interaction);
     }
 });

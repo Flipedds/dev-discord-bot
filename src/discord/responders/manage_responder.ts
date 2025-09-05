@@ -1,4 +1,5 @@
 import { createResponder, ResponderType } from "#base";
+import { sendMessage } from "#functions";
 
 createResponder({
     customId: "/manage/user/:userId/:action",
@@ -25,6 +26,6 @@ createResponder({
                 break;
             }
         }
-        await interaction.reply({ content: `Ação ${action} executada em ${targetMember.user.tag}`, ephemeral: true });
+        sendMessage(true, `Ação ${action} executada em ${targetMember.user.tag}`, interaction);
     },
 });

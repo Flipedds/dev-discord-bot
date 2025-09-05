@@ -1,4 +1,5 @@
 import { createCommand } from "#base";
+import { hasAdminPermissionIn, isInServer, renderComponents, sendMessage } from "#functions";
 import { ApplicationCommandType, StringSelectMenuBuilder } from "discord.js";
 
 createCommand({
@@ -6,14 +7,19 @@ createCommand({
     description: "List all members in the server",
     type: ApplicationCommandType.ChatInput,
     async run(interaction) {
-        if (!interaction.guild) {
-            await interaction.reply("This command can only be used in a server.");
+        if (!isInServer(interaction)) {
+            sendMessage(true, "Esse comando só pode ser usado em um servidor.", interaction);
+            return;
+        }
+
+        if (!hasAdminPermissionIn(interaction)) {
+            sendMessage(true, "Apenas um administrador pode usar esse comando", interaction);
             return;
         }
 
         const members = await interaction.guild.members.fetch();
 
-        const dropdown = new StringSelectMenuBuilder()
+        const memberSelectList = new StringSelectMenuBuilder()
             .setCustomId("list_member_select")
             .setPlaceholder("Select a member")
             .addOptions(
@@ -23,11 +29,12 @@ createCommand({
                 }))
             );
 
-        await interaction.reply({
-            flags: ["Ephemeral"],
-            content: "Select a member from the dropdown below:",
-            components: [{ type: 1, components: [dropdown] }]
-            
-        });
+
+        renderComponents("Select a member from the dropdown below:",
+            [
+                { type: 1, components: [memberSelectList] }
+            ],
+            interaction
+        )
     },
 });

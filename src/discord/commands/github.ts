@@ -1,4 +1,5 @@
 import { createCommand } from "#base";
+import { renderEmbed } from "#functions";
 import { brBuilder, createEmbed } from "@magicyan/discord";
 import { ApplicationCommandType } from "discord.js";
 
@@ -28,10 +29,6 @@ createCommand({
                 }
             ]
         });
-
-        await interaction.reply({
-            flags: ["Ephemeral"],
-            embeds: [embed]
-        });
+        renderEmbed([embed], interaction)
     }
 });

@@ -1,4 +1,5 @@
 import { createResponder, ResponderType } from "#base";
+import { sendMessage } from "#functions";
 
 createResponder({
     customId: "/game/:userChoice",
@@ -42,9 +43,22 @@ createResponder({
             default:
                 gameResult = "Escolha inválida!";
         }
-        await interaction.reply({ 
-            content: `${gameResult} Você: ${userChoice} Bot: ${botChoice}`,
-            flags: ["Ephemeral"] 
-        });
+        sendMessage(true,`${gameResult} Você: ${userChoice} Bot: ${botChoice}`, interaction);
+    }
+});
+
+
+createResponder({
+    customId: "/roulette/play",
+    types: [ResponderType.Button], cache: "cached",
+    async run(interaction) {
+        const randomNumber = Math.floor(Math.random() * 6) + 1;
+        if (randomNumber === 6) {
+            sendMessage(true, "💥 Você morreu!", interaction);
+            const member = await interaction.guild.members.fetch(interaction.user.id);
+            member.timeout(6000, "Roleta russa");
+        } else {
+            sendMessage(true, "🎉 Você sobreviveu!", interaction);
+        }
     }
 });
