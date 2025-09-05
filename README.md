@@ -2,11 +2,25 @@
 
 ## Bot Commands
 
->{/} Slash command > game ✓
+> {/} Slash command > game ✓
 
 > {/} Slash command > github ✓
 
-> ▸ button > /game/:action ✓
+> {/} Slash command > list_members ✓
+
+## Bot Menu
+
+> {☰} User context menu > Gerenciar ✓
+
+## Bot Buttons
+
+> ▸ button > /game/:userChoice ✓
+
+> ▸ button > /manage/user/:userId/:action ✓
+
+> ▸ select.string > list_member_select ✓
+
+## Bot Events
 
 > ☉ disconnect > voiceStateUpdate event ✓
 
